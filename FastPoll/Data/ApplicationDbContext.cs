@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using FastPoll.Models;
 namespace FastPoll.Data
 {
     public class ApplicationDbContext : IdentityDbContext
@@ -9,7 +9,8 @@ namespace FastPoll.Data
             : base(options)
         {
         }
-        
+        public DbSet<Poll> Polls { get; set; }
+        public DbSet<Option> Options { get; set; }
 
     }
 }
