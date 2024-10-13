@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Poll)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Poll.CreatedBy)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,7 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Votes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Poll.CreatedBy)
+                @Html.DisplayFor(modelItem => item.Poll.Question)
+            </td>
+            <td>
+				@Html.DisplayFor(modelItem => item.Poll.CreatedBy)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OptionId">Edit</a> |
