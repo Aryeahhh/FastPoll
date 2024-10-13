@@ -20,9 +20,17 @@ namespace FastPoll.Controllers
         }
 
         // GET: Polls
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Polls.ToListAsync());
+            var polls = from p in _context.Polls
+                        select p;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                polls = polls.Where(p => p.Question.Contains(searchString));
+            }
+
+            return View(await polls.ToListAsync());
         }
 
         // GET: Polls/Details/5

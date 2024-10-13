@@ -20,10 +20,19 @@ namespace FastPoll.Controllers
         }
 
         // GET: Options
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = _context.Options.Include(o => o.Poll);
-            return View(await applicationDbContext.ToListAsync());
+            ViewData["CurrentFilter"] = searchString;
+
+            var options = from o in _context.Options.Include(o => o.Poll)
+                          select o;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                options = options.Where(o => o.Text.Contains(searchString) || o.Poll.Question.Contains(searchString));
+            }
+
+            return View(await options.ToListAsync());
         }
 
         // GET: Options/Details/5
@@ -129,7 +138,7 @@ namespace FastPoll.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "CreatedBy", option.PollId);
+            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "Question", option.PollId);
             return View(option);
         }
 
