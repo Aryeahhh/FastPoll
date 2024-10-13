@@ -12,4 +12,4 @@
 ## Bonus
 * Added Search Functionality for options and polls to find entries quickly
 ## Website Link
-[link](fastpolls-d7ehaqhed0fdbdeb.canadacentral-01.azurewebsites.net)
+[FastPoll](https://fastpolls-d7ehaqhed0fdbdeb.canadacentral-01.azurewebsites.net/)
