@@ -21,3 +21,6 @@ body {
   
   margin-bottom: 60px;
 }
+table th:hover{
+    cursor:pointer;
+}
