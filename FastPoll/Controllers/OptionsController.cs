@@ -48,7 +48,7 @@ namespace FastPoll.Controllers
         // GET: Options/Create
         public IActionResult Create()
         {
-            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "CreatedBy");
+            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "Question");
             return View();
         }
 
@@ -57,15 +57,22 @@ namespace FastPoll.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create([Bind("OptionId,PollId,Text,Votes")] Option option)
         {
+            Console.WriteLine($"PollId: {option.PollId}, Text: {option.Text}, Votes: {option.Votes}");
             if (ModelState.IsValid)
             {
                 _context.Add(option);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "CreatedBy", option.PollId);
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error.ErrorMessage); 
+            }
+            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "Question", option.PollId);
             return View(option);
         }
 
@@ -76,13 +83,17 @@ namespace FastPoll.Controllers
             {
                 return NotFound();
             }
-
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
             var option = await _context.Options.FindAsync(id);
             if (option == null)
             {
                 return NotFound();
             }
-            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "CreatedBy", option.PollId);
+            ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "Question", option.PollId);
             return View(option);
         }
 

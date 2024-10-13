@@ -16,6 +16,6 @@ namespace FastPoll.Models
         [Required]
         public int Votes { get; set; }
 
-        public Poll Poll { get; set; }
+        public Poll? Poll { get; set; }
     }
 }
