@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using FastPoll.Data;
 using FastPoll.Models;
@@ -55,6 +56,7 @@ namespace FastPoll.Controllers
         }
 
         // GET: Options/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "Question");
@@ -62,11 +64,9 @@ namespace FastPoll.Controllers
         }
 
         // POST: Options/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [Authorize]
         public async Task<IActionResult> Create([Bind("OptionId,PollId,Text,Votes")] Option option)
         {
             Console.WriteLine($"PollId: {option.PollId}, Text: {option.Text}, Votes: {option.Votes}");
@@ -79,13 +79,14 @@ namespace FastPoll.Controllers
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             foreach (var error in errors)
             {
-                Console.WriteLine(error.ErrorMessage); 
+                Console.WriteLine(error.ErrorMessage);
             }
             ViewData["PollId"] = new SelectList(_context.Polls, "PollId", "Question", option.PollId);
             return View(option);
         }
 
         // GET: Options/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -107,10 +108,9 @@ namespace FastPoll.Controllers
         }
 
         // POST: Options/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("OptionId,PollId,Text,Votes")] Option option)
         {
             if (id != option.OptionId)
@@ -143,6 +143,7 @@ namespace FastPoll.Controllers
         }
 
         // GET: Options/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -164,6 +165,7 @@ namespace FastPoll.Controllers
         // POST: Options/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var option = await _context.Options.FindAsync(id);
