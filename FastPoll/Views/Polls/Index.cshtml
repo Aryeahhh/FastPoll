@@ -7,7 +7,9 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if(User.Identity.IsAuthenticated){
+        <a asp-action="Create">Create New</a>
+    }
 </p>
 <form asp-action="Index" method="get" class="form-inline mb-3">
     <div class="form-group">
@@ -43,9 +45,12 @@
                 @Html.DisplayFor(modelItem => item.CreatedBy)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PollId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PollId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PollId">Delete</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.PollId">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.PollId">Delete</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.PollId">Details</a>
             </td>
         </tr>
 }

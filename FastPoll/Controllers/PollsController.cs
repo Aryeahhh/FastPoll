@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using FastPoll.Data;
 using FastPoll.Models;
 
@@ -52,16 +53,16 @@ namespace FastPoll.Controllers
         }
 
         // GET: Polls/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Polls/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("PollId,Question,CreatedAt,CreatedBy")] Poll poll)
         {
             Console.WriteLine($"Creating a new poll with the following details: PollId={poll.PollId}, Question={poll.Question}, CreatedAt={poll.CreatedAt}, CreatedBy={poll.CreatedBy}");
@@ -75,6 +76,7 @@ namespace FastPoll.Controllers
         }
 
         // GET: Polls/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,10 +93,9 @@ namespace FastPoll.Controllers
         }
 
         // POST: Polls/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("PollId,Question,CreatedAt,CreatedBy")] Poll poll)
         {
             if (id != poll.PollId)
@@ -126,6 +127,7 @@ namespace FastPoll.Controllers
         }
 
         // GET: Polls/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,6 +148,7 @@ namespace FastPoll.Controllers
         // POST: Polls/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var poll = await _context.Polls.FindAsync(id);
