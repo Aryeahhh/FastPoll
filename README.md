@@ -4,7 +4,8 @@
 * Create Polls
 * Vote and polls and view the results in real-time
 * Little to no commitment, User accounts are not required
-  
+* Account System
+* Can log in with google too
 ## Layout Updates
 * Added bootstrap css to make the website look cleaner
 * Added sorttable.js for more functionality and sort tables 
