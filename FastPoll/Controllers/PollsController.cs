@@ -65,7 +65,10 @@ namespace FastPoll.Controllers
         [Authorize]
         public async Task<IActionResult> Create([Bind("PollId,Question,CreatedAt,CreatedBy")] Poll poll)
         {
-            Console.WriteLine($"Creating a new poll with the following details: PollId={poll.PollId}, Question={poll.Question}, CreatedAt={poll.CreatedAt}, CreatedBy={poll.CreatedBy}");
+            if (poll == null)
+            {
+                return BadRequest(); // Return BadRequest if poll is null
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(poll);
