@@ -146,5 +146,19 @@ namespace FastPollTests
             // Assert
             Assert.IsNotNull(result);  // Check if it returns the same page with the error
         }
+        // Test for POST: Polls/Create with invalid characters in the question (checks if it returns an error)
+        [TestMethod]
+        public void Create_InvalidCharactersInQuestion_ReturnsViewWithError()
+        {
+            var newPoll = new Poll
+            {
+                Question = "@#%$^&*",  // Invalid question with special characters
+                CreatedAt = System.DateTime.Now,
+                CreatedBy = "Admin"
+            };
+            _controller.ModelState.AddModelError("Question", "Question contains invalid characters.");
+            var result = _controller.Create(newPoll).Result as ViewResult;
+            Assert.IsNotNull(result);
+        }
     }
 }
